@@ -1,4 +1,4 @@
-# Criação de um cluster EKS com Prometheus + Grafana + External DNS + GitlabCI
+# Cluster EKS com Prometheus + Grafana + External DNS + GitlabCI com terraform
 
 
 # INTRODUÇÃO
@@ -43,3 +43,5 @@ terraform apply -auto-approve
 
 ## Pos execução 
 Uma vez instalado o cluster, será preciso configurar o runner master inicial com acesso ao gerenciamento do cluster, sendo sendo assim, apos a execução uma chave PEM será gerada na pasta dados, ultilize-a para acessar a instancia do gitlab e configurar as credenciais da AWS e do kubectl
+
+Em seguida, siga os passo do gitlab para registrar um runner do tipo shell na maquina do gitlab
