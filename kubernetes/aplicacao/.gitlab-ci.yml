@@ -1,0 +1,40 @@
+stages:
+  - "build"
+  - "deploy"
+
+# before_script:
+#   - |
+#     mkdir ~/.aws
+#     cat <<EOF>~/.aws/config
+#     [default]
+#     region = sa-east-1
+#     output = json
+#     EOF
+
+
+build-app:
+  image: node
+  # before_script:
+  #   - npm install -g @angular/cli
+  stage: build
+  script:
+    - npm install
+    - npm run-script build
+  artifacts:
+    paths:
+      - "dist/aplicacao"
+  tags:
+    - "docker"
+
+build-docker:
+  stage: build
+  # before_script:
+  #   - 
+  # Adicionar instalação do docker ou instalar runner no master
+  script:
+    - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 632754071571.dkr.ecr.us-east-1.amazonaws.com
+    - docker build -t aplicacao .
+    - docker tag aplicacao:latest 632754071571.dkr.ecr.us-east-1.amazonaws.com/aplicacao:latest
+    - docker push 632754071571.dkr.ecr.us-east-1.amazonaws.com/aplicacao:latest
+  tags:
+    - "master"
